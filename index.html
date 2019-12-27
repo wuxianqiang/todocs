@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    textarea {
+      width: 90%;
+      height: 800px;
+      word-break: break-all;
+      font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+      color: #24292e;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>随手记</h1>
+  <textarea cols="30" rows="10" id="text"></textarea>
+
+  <script>
+    let text = document.getElementById('text')
+    if (localStorage.getItem('docs-text')) {
+      text.value = JSON.parse(localStorage.getItem('docs-text'))
+    }
+    text.oninput = debounce(() => {
+      localStorage.setItem('docs-text', JSON.stringify(text.value))
+    })
+    function debounce(func, delay = 300, I = null) {
+      return (...args) => {
+        clearTimeout(I)
+        I = setTimeout(func.bind(null, ...args), delay)
+      }
+    }
+  </script>
+</body>
+
+</html>
