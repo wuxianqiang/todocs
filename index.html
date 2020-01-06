@@ -5,39 +5,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>写作</title>
   <style>
-    textarea {
-      width: 90%;
-      height: 800px;
-      word-break: break-all;
-      font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-      color: #24292e;
-      border: 1px solid #dcdfe6;
-      border-radius: 4px;
-      font-size: 16px;
-      padding: 10px;
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: mediumaquamarine;
+      font-family: "Berkshire Swash", cursive;
+      text-align: center;
+    }
+
+    .edit {
+      width: 80%;
+      height: 100%;
+      min-height: 51vh;
+      outline: none;
+      color: #333;
+      font-family: "Berkshire Swash", cursive;
+      font-size: 1.2rem;
+      line-height: 1.56;
+      margin: 30px;
+      padding: 30px 50px;
+      position: relative;
+      border: 1px solid #DFE8EC;
+      background: -webkit-linear-gradient(top, #DFE8EC 0%, white 8%) 0 56px;
+      background: -moz-linear-gradient(top, #DFE8EC 0%, white 8%) 0 56px;
+      background: linear-gradient(top, #DFE8EC 0%, white 8%) 0 56px;
+      -webkit-background-size: 100% 30px;
+      -moz-background-size: 100% 30px;
+      background-size: 100% 30px;
+    }
+
+    .edit:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30px;
+      width: 1px;
+      height: 100%;
+      border: 1px solid indianred;
+      opacity: 0.5;
     }
   </style>
 </head>
 
 <body>
-  <h1>随手记</h1>
-  <textarea cols="30" rows="10" id="text"></textarea>
+  <h1>写作</h1>
+
+  <div id="text" class="edit" contenteditable>
+    开始创作吧...
+  </div>
+
+  <button id="save">保存</button>
 
   <script>
     let text = document.getElementById('text')
+    let save = document.getElementById('save')
     if (localStorage.getItem('docs-text')) {
-      text.value = JSON.parse(localStorage.getItem('docs-text'))
+      text.textContent = JSON.parse(localStorage.getItem('docs-text'))
     }
-    text.oninput = debounce(() => {
-      localStorage.setItem('docs-text', JSON.stringify(text.value))
-    })
-    function debounce(func, delay = 300, I = null) {
-      return (...args) => {
-        clearTimeout(I)
-        I = setTimeout(func.bind(null, ...args), delay)
-      }
+    save.onclick = function () {
+      localStorage.setItem('docs-text', JSON.stringify(text.textContent))
     }
   </script>
 </body>
